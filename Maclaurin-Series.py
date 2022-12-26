@@ -1,3 +1,9 @@
+# define Python user-defined exceptions
+class InvalidOptionException(Exception):
+    "Raised when the input value is not [cos, sin, e^x] "
+    pass
+
+
 # Factorial function
 def fact(num):
     if num <= 1:
@@ -29,16 +35,40 @@ def sinine_series(num,x):
     
 
 def main():
-    type = str(input('Enter cos or sin or e^x:'))
+    while True:
+        try:
+            type = str(input('Enter cos or sin or e^x:'))
+            if type not in ["cos", "sin", "e^x"]:
+                raise InvalidOptionException()
+            break
+        except InvalidOptionException:
+            print("please enter a valid option such as cos or sin or e^x")
+        except ValueError:
+            print("please enter a valid string")
     if type == 'cos':
-        x = int(input('Enter x: '))
-        n = int(input('Enter n: '))
+        while True:
+            try:
+                x = int(input('Enter x: '))
+                n = int(input('Enter n: '))
+                break
+            except ValueError:
+                print("please enter a valid number for n and x")
         cosine_series(n,x)
     elif type =='sin':
-        x = int(input('Enter x: '))
-        n = int(input('Enter n: '))
+        while True:
+            try:
+                x = int(input('Enter x: '))
+                n = int(input('Enter n: '))
+                break
+            except ValueError:
+                print("please enter a valid number for n and x")
         sinine_series(n,x)
     else:
-        n = int(input('Enter n: '))
+        while True:
+            try:
+                n = int(input('Enter n: '))
+                break
+            except ValueError:
+                print("please enter a valid number for n")
         exponential_series(n)
 main()
