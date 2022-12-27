@@ -1,6 +1,6 @@
 import scrapy
 from ..items import WebscrapyItem
-
+ # to run the flipkart spider open the terminal cd and then run -scrapy crawl flipkart and the result should be saved to flipkart.csv
 class FlipkartSpider(scrapy.Spider):
     name = 'flipkart'
     allowed_domains = ['www.flipkart.com']
@@ -8,9 +8,9 @@ class FlipkartSpider(scrapy.Spider):
 
     def parse(self, response):
         items = WebscrapyItem()
-        for p in response.xpath('//div[@class="_13oc-S"]'):
-            items['product_name'] = p.xpath("//div[@class='_2kHMtA']//div[@class='_4rR01T']/text()").extract()
-            items['product_price'] = p.xpath("//div[@class='_2kHMtA']//div[@class='_30jeq3 _1_WHN1']/text()").extract()
-            items['product_rate'] = p.xpath("//div[@class='_2kHMtA']//div[@class='_3LWZlK']/text()").extract()
-            print(items)
+        products = response.xpath('//*[@class="_3pLy-c row"]')
+        for p in products: 
+            items['product_name'] = p.xpath('.//*[@class="_4rR01T"]/text()').extract_first()
+            items['product_price'] = p.xpath('.//*[@class="_30jeq3 _1_WHN1"]/text()').extract_first()
+            items['product_rate'] = p.xpath('.//*[@class="_3LWZlK"]/text()').extract_first()
             yield items
